@@ -1,33 +1,22 @@
-import { useEffect } from 'react';
-import HeroSection from '@/components/HeroSection';
-import JourneyStats from '@/components/JourneyStats';
-import OutboundJourney from '@/components/OutboundJourney';
-import InteractiveMap from '@/components/InteractiveMap';
-import ReturnJourney from '@/components/ReturnJourney';
-import AirlinesShowcase from '@/components/AirlinesShowcase';
-import JourneyInsights from '@/components/JourneyInsights';
-import Footer from '@/components/Footer';
+import { useState } from 'react';
+import DashboardHeader from '@/components/DashboardHeader';
+import MapView from '@/components/MapView';
+import MapLegend from '@/components/MapLegend';
 
 const Index = () => {
-  useEffect(() => {
-    // Smooth scrolling behavior
-    document.documentElement.style.scrollBehavior = 'smooth';
-    
-    return () => {
-      document.documentElement.style.scrollBehavior = 'auto';
-    };
-  }, []);
+  const [activeView, setActiveView] = useState<'outbound' | 'return' | 'both'>('both');
 
   return (
-    <div className="min-h-screen">
-      <HeroSection />
-      <JourneyStats />
-      <OutboundJourney />
-      <InteractiveMap />
-      <ReturnJourney />
-      <AirlinesShowcase />
-      <JourneyInsights />
-      <Footer />
+    <div className="h-screen flex flex-col bg-gray-50">
+      <DashboardHeader 
+        activeView={activeView} 
+        onViewChange={setActiveView} 
+      />
+      
+      <div className="flex-1 relative">
+        <MapView activeView={activeView} />
+        <MapLegend activeView={activeView} />
+      </div>
     </div>
   );
 };
